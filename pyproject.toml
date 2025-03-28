@@ -19,7 +19,7 @@ dependencies = [
 
 [project.urls]
 # Link to your node package's repository. Replace with your actual URL.
-Repository = "https://github.com/your_username/your_repo" # TODO: Replace with your actual GitHub repo URL
+Repository = "https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer" # TODO: Replace with your actual GitHub repo URL
 
 [tool.comfy]
 # Your unique Publisher ID obtained from the Comfy Registry website.

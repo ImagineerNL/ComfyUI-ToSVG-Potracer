@@ -1,3 +1,6 @@
+STILL WIP; DO NOT USE YET!!
+
+
 Traces a raster image (IMAGE) into an SVG vector graphic using the 'potracer' pure Python library for POTRACE. This SVG conversion is great for BW logo's, text, etc.
 
 The input image should only use the two colors black and white. If other pixel values appear in the input, they will be converted to black and white using a simple threshold method. 
@@ -20,9 +23,10 @@ Parameters:
  - no_background removes the background color.
 
 Output:
- - svg_strings: a list of strings to be converted to svg shape. Use ToSVG's SaveSVG to save file.
+ - svg_strings: a list of strings to be converted to svg shape. 
+ Requires ComfyUI-ToSVG --> SaveSVG to save the SVGfile.
 
- Sources:
+ Sources, Love and Inspiration:
  - Potrace: https://potrace.sourceforge.net/
  - Potracer: https://github.com/tatarize/potrace
  - ComfyUI-ToSVG: https://github.com/Yanick112/ComfyUI-ToSVG

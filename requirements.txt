@@ -1,0 +1,11 @@
+# requirements.txt for PotracerVectorize ComfyUI Node
+
+# Core vectorization library (pure Python Potrace implementation)
+# NOTE: Requires 'pypotrace'/'pypotrace-windows' to be UNINSTALLED first!
+potracer
+
+# Dependency for image array manipulation (usually pre-installed with ComfyUI)
+numpy
+
+# Dependency for image loading/conversion (usually pre-installed with ComfyUI)
+Pillow

@@ -1,0 +1,31 @@
+# pyproject.toml (for Comfy Registry)
+
+[project]
+# Unique identifier for your node package. Immutable after creation on the registry.
+name = "ComfyUI-ToSVG-Potracer"
+# Short description of the node package.
+description = "ComfyUI node to vectorize images using the pure Python 'potracer' library."
+# Your node package's version. MUST follow semantic versioning (e.g., MAJOR.MINOR.PATCH).
+version = "1.5.0" # Or adjust as needed
+# Specifies the license file. You MUST create a LICENSE.txt file in your project root.
+license = { file = "LICENSE.txt" }
+# Project dependencies. PEP 621 standard replaces requirements.txt here.
+# torch is omitted as it's assumed to be part of the ComfyUI environment.
+dependencies = [
+    "numpy",
+    "Pillow",
+    "potracer"
+]
+
+[project.urls]
+# Link to your node package's repository. Replace with your actual URL.
+Repository = "https://github.com/your_username/your_repo" # TODO: Replace with your actual GitHub repo URL
+
+[tool.comfy]
+# Your unique Publisher ID obtained from the Comfy Registry website.
+PublisherId = "YOUR_REGISTRY_PUBLISHER_ID" # TODO: Replace with your actual Publisher ID
+# The display name shown for your package in the ComfyUI Manager/Registry.
+DisplayName = "ComfyUI-ToSVG-Potracer"
+# URL pointing to an icon for your package. MUST be a direct link to an image.
+# SVG, PNG, JPG or GIF (MAX. 800x400px according to template).
+Icon = "https://URL_TO_YOUR_HOSTED/bezier_icon.svg" # TODO: Replace with a valid, direct URL to your icon

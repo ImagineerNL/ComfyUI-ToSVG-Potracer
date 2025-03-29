@@ -5,7 +5,7 @@
 name = "ComfyUI-ToSVG-Potracer"
 description = "ComfyUI node to vectorize images using the pure Python 'potracer' library for potrace."
 # Your node package's version. MUST follow semantic versioning (e.g., MAJOR.MINOR.PATCH).
-version = "1.0.0" # Or adjust as needed
+version = "0.0.1" # Or adjust as needed
 # license = { file = "LICENSE.txt" }
 # Project dependencies. PEP 621 standard replaces requirements.txt here.
 dependencies = [

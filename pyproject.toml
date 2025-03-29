@@ -3,7 +3,7 @@
 [project]
 # Unique identifier for your node package. Immutable after creation on the registry.
 name = "ComfyUI-ToSVG-Potracer"
-description = "ComfyUI node to vectorize images using the pure Python 'potracer' library for potrace."
+description = "ComfyUI node to vectorize 2 color images like logo or text using the pure Python 'potracer' library for potrace."
 # Your node package's version. MUST follow semantic versioning (e.g., MAJOR.MINOR.PATCH).
 version = "0.0.2" # Or adjust as needed
 # license = { file = "LICENSE.txt" }
@@ -22,4 +22,4 @@ PublisherId = "imagineernl" # Publisher ID from Comfy Registry Website
 DisplayName = "ComfyUI-ToSVG-Potracer" # Display name for the Custom Node. Can be changed later
 # URL pointing to an icon for your package. MUST be a direct link to an image.
 # SVG, PNG, JPG or GIF (MAX. 800x400px).
-Icon = "https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer/blob/main/img/potracer.jpg" #
+Icon = "https://raw.githubusercontent.com/ImagineerNL/ComfyUI-ToSVG-Potracer/refs/heads/main/img/potracer.jpg" #

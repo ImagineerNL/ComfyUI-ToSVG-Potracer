@@ -24,7 +24,7 @@ Potracer to SVG node traces a raster image (IMAGE) into an SVG vector graphic us
 ## Comparing Vtracer and Potracer
 While each user and route will have their specific usecase, my usecase is creating designs for Vinylcutters and logo's. This usecase requires sharp images, fluid shapes and clear separation of fore and background.
 
-![Vtracer vs Potracer](img\Vtracer-v-Potracer_combined.jpg)
+![Vtracer vs Potracer](img/Vtracer-v-Potracer_combined.jpg)
 - *Left side: Vtracer (Green, Top) shows significantly more artifacts, hard edges or straight lines, and irregular traces compared to Potracer (Blue, Bottom), which stays true to the original form.*
 - *Right side: Vtracer has significantly more vector points compared to the optimized Potracer version.*
 - For the usecases where Vtracer suits best, go check out (https://github.com/Yanick112/ComfyUI-ToSVG/), where Yanick explains the workings in detail. 
@@ -54,7 +54,7 @@ Enjoy setting up your ComfyUI-ToSVG tool! If you encounter any issues or need fu
 The input image should only use the two colors black and white. If other pixel values appear in the input, they will be converted to black and white using a simple threshold method. 
 Outputs svg strings as 1 flat shape (as a compound path). Should you want to adjust the shapes by hand, currently, when you release the path in vector design software, the 'internal openings' become filled shapes. This is easy to fix using the boolean tools and substract. My main usecase is Silhouette Studio for vinylcutting and especially with 'zero_sharp_corners' set to true, i don't need to do any postprocessing on the shape.  
 
-![alt text](img\ToSVG-Potracer.jpg)
+![alt text](img/ToSVG-Potracer.jpg)
 
 | Parameter                	| Usage                                                                                                  	| Default        	|
 |--------------------------	|--------------------------------------------------------------------------------------------------------	|:----------------:	|
@@ -81,7 +81,7 @@ Outputs svg strings as 1 flat shape (as a compound path). Should you want to adj
 
 ||
 | :-------------: |
-| ![alt text](img\ComfyUI-ToSVG-Potracer_Reference_Workflow.jpg ) |
+| ![alt text](img/ComfyUI-ToSVG-Potracer_Reference_Workflow.jpg ) |
 | *The above image is just a visualisation, does not contain workflow* |
 ||
 | <img src="ComfyUI_ToSVG_Potrace_Workflow.png" alt="ComfyUI_ToSVG_Potrace_Workflow.png" width="200"/> <br> *drag/drop in ComfyUI* <br> [Example Workflow JSON](example_workflows/example_ToSVG_Potracer.json) <br> [Example Workflow PNG](ComfyUI_ToSVG_Potrace_Workflow.png) |

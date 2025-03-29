@@ -1,4 +1,6 @@
-- [UNofficial ComfyUI Potrace(r) SVG conversion](#unofficial-comfyui-potracer-svg-conversion)
+# **UN**official ComfyUI Potrace(r) SVG conversion
+
+- [**UN**official ComfyUI Potrace(r) SVG conversion](#unofficial-comfyui-potracer-svg-conversion)
   - [Comparing Vtracer and Potracer](#comparing-vtracer-and-potracer)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -8,18 +10,13 @@
   - [To Do](#to-do)
 - [***Disclaimer***](#disclaimer)
 
-
-# UNofficial ComfyUI Potrace(r) SVG conversion
-This is my First ever (public) ComfyUI node.
-While tested thoroughly, and as with all custom nodes, USE AT YOUR OWN RISK.
-
-I created this custom node because i wasn't getting the results I wanted when using the [ComfyUI-ToSVG node by Yanick112](https://github.com/Yanick112/ComfyUI-ToSVG). 
-This is NOT a complaint; his work is great and inspired me. <br>
+I created this custom node because i wasn't getting the results I needed for my usecase when using the [ComfyUI-ToSVG node by Yanick112](https://github.com/Yanick112/ComfyUI-ToSVG). 
+This is NOT a complaint; his work is great and inspired me to create this one. <br>
 ComfyUI-toSVG implements the VTracer logic, and this works great for multicolor and detailed images. <br>
 For logo's, text, etc. I found Potrace SVG conversion better suited, with the caveat that it only handles 2 colors; a Foreground and Background. <br>
-I also found Potrace better more optimized shapes with less points and thus requires less to no cleanup when loading into vector design software. 
+I also found Potrace optimizes shapes differently, creating fewer vector-points and needing almost to no cleanup when loading the SVG into vector design software. 
 
-Potracer to SVG node traces a raster image (IMAGE) into an SVG vector graphic using the 'potracer' pure Python library for POTRACE.
+Potracer to SVG node traces a raster image (IMAGE) into an SVG vector graphic using the ['potracer'](https://github.com/tatarize/potrace) pure Python library for POTRACE by Tatarize.
 
 ## Comparing Vtracer and Potracer
 While each user and route will have their specific usecase, my usecase is creating designs for Vinylcutters and logo's. This usecase requires sharp images, fluid shapes and clear separation of fore and background.
@@ -27,28 +24,37 @@ While each user and route will have their specific usecase, my usecase is creati
 ![Vtracer vs Potracer](img/Vtracer-v-Potracer_combined.jpg)
 - *Left side: Vtracer (Green, Top) shows significantly more artifacts, hard edges or straight lines, and irregular traces compared to Potracer (Blue, Bottom), which stays true to the original form.*
 - *Right side: Vtracer has significantly more vector points compared to the optimized Potracer version.*
-- For the usecases where Vtracer suits best, go check out (https://github.com/Yanick112/ComfyUI-ToSVG/), where Yanick explains the workings in detail. 
+- For the usecases where Vtracer suits best, go check out https://github.com/Yanick112/ComfyUI-ToSVG/, where Yanick explains the workings in detail. 
 
 ## Installation
 Due to both usecases for SVG export are very valid when working with ComfyUI, I opted to keep the naming and category alike for easier navigation.
->***note: This node requires Yanick112's ComfyUI-ToSVG --> SaveSVG node to save the SVGfile. See his repository for install instructions***
+>***note: This node requires [Yanick112's ComfyUI-ToSVG](https://github.com/Yanick112/ComfyUI-ToSVG/) --> SaveSVG node to save the SVGfile and VectorToRaster node to reconstruct SVG to Image. See his repository for install instructions***
 
-1. Navigate to your /ComfyUI/custom_nodes/ folder.
-2. Run the following command to clone the repository:
+- Using comfyregistry Manual:
 
-    git clone https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer
+        comfy node registry-install ComfyUI-ToSVG-Potracer
+        comfy node registry-install ComfyUI-ToSVG
+- Using ComfyUI Manager --> Custom Node Manager --> Search for:
+   
+        ComfyUI-ToSVG-Potracer
+        Comfyui-ToSVG
 
+- Manual Installation (ToSVG-Potracer only)
+  1. Navigate to your /ComfyUI/custom_nodes/ folder.
+  2. Run the following command to clone the repository:
 
-3. Navigate to your ComfyUI-ToSVG-Potracer folder.
-    - Command for Portable/venv:
+          git clone https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer
+
+  3. Navigate to your ComfyUI-ToSVG-Potracer folder.
+       - Command for Portable/venv:
     
-            path/to/ComfUI/python_embeded/python.exe -s -m pip install -r requirements.txt
+             path/to/ComfUI/python_embeded/python.exe -s -m pip install -r requirements.txt
 
-    - Command for system Python:
+       - Command for system Python:
 
-            pip install -r requirements.txt
+             pip install -r requirements.txt
+  4. Visit https://github.com/Yanick112/ComfyUI-ToSVG for installation of ComfyUI-ToSVG
 
-Enjoy setting up your ComfyUI-ToSVG tool! If you encounter any issues or need further help, feel free to reach out.
 
 ## Usage
 The input image should only use the two colors black and white. If other pixel values appear in the input, they will be converted to black and white using a simple threshold method. 
@@ -118,9 +124,13 @@ Trigger: v3ctora style
 
 ## To Do
 - [X] Deploy V1 to Github
+- [X] Deploy to Comfyregistry
 - [ ] Real life testing & feedback
-- [ ] Deploy to Comfyregistry
+
 
 # ***Disclaimer***
+This is my First ever (public) ComfyUI node.
+While tested thoroughly, and as with all custom nodes, **USE AT YOUR OWN RISK**.
+
 While tested a lot and I have IT knowledge, I am no programmer by trade. This is a passion project for my own specific usecase and I'm sharing it so other people might benefit from it just as much as i benefitted from others. I am convinced this implementation has its flaws and it will probably not work on all other installations worldwide.
 I can not guarantee if this project will get more updates and when. 

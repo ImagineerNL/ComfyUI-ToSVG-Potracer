@@ -3,10 +3,10 @@
 [project]
 # Unique identifier for your node package. Immutable after creation on the registry.
 name = "ComfyUI-ToSVG-Potracer"
-description = "ComfyUI node to vectorize 2 color images like logo or text using the pure Python 'potracer' library for potrace."
+description = "ComfyUI node to vectorize 2 color images like logo or text using the pure Python 'potracer' library for potrace. Requires https://registry.comfy.org/nodes/ComfyUI-ToSVG to_SVG node to save as SVG. "
 # Your node package's version. MUST follow semantic versioning (e.g., MAJOR.MINOR.PATCH).
-version = "0.0.2" # Or adjust as needed
-# license = { file = "LICENSE.txt" }
+version = "1.0.0" # Or adjust as needed
+# license = { file = "LICENSE" }
 # Project dependencies. PEP 621 standard replaces requirements.txt here.
 dependencies = [
     "numpy",

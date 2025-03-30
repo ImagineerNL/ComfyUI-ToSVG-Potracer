@@ -77,60 +77,106 @@ Outputs svg strings as 1 flat shape (as a compound path). Should you want to adj
 | **stroke_width**        	| *Sets a stroke width/outline for the traced shapes*                                                    	| 0.0            	|
 | **background_color**    	| *Defines background color after trace #rrggbb*                                                         	| #ffffff        	|
 | **no_background**       	| *Removes the background color.*                                                                        	| false          	|
+| **output_scale** | *Scale the output SVG string by a factor X for resizing.* |1.0|
 ||
 ||
-| ***Output***                    | 
+| ***Output***    |                | 
 | **svg_strings**           | *a list of strings to be converted to svg shape. <br> **Note: Requires ComfyUI-ToSVG --> SaveSVG to save the SVGfile.*** 
  
 
-## Workflow
+## Workflows
 
-||
+### 1. **Txt2Img to SVG Potracer Example Workflow**
+| |
 | :-------------: |
-| ![alt text](img/ComfyUI-ToSVG-Potracer_Reference_Workflow.jpg ) |
-| *The above image is just a visualisation, does not contain workflow* |
+| ![alt text](img/ComfyUI-ToSVG-Potracer_Reference_Workflow.jpg ) <br> *The above image is just a visualisation, does not contain workflow* |
 ||
 | <img src="ComfyUI_ToSVG_Potrace_Workflow.png" alt="ComfyUI_ToSVG_Potrace_Workflow.png" width="200"/> <br> *drag/drop in ComfyUI* <br> [Example Workflow JSON](example_workflows/example_ToSVG_Potracer.json) <br> [Example Workflow PNG](ComfyUI_ToSVG_Potrace_Workflow.png) |
 
-## Tested on
-The node is model independent, but I'm getting great results using:
- - Model: Flux_dev (t5xxl_fp8_e4m3fn / clip_l)
-- Settings: <br>
-  Euler - Simple<br>
-  Steps - 25-30<br>
-  Latent Image size - 1024x1024<br>
-  Distilled CFG Scale - 3.5<br>
-  CFG - 1<br>
-  Comfyui-various - Image Contrast: 1.5 - 2
+**Workflow details**
 
- - Lora: [Simple_Vector_Flux_v2_renderartist](https://civitai.com/models/785122/simple-vector-flux)<br>
-    Trigger keyword: v3ct0r , vector<br>
-    Recommended strengths: 0.6 - 0.9
-- Lora: [Simple_Vectors_Flux_by_Sarcastic_TOFU](https://civitai.com/models/1329550/simplevectorsfluxbysarcastictofu) <br>
-    Trigger keyword: Simple_Vectors_Flux
-- Lora: [Textimprover-FLUX-V0.4](https://civitai.com/models/793052) <br>
-    Trigger: aidmaTextImprover <br>
-    Strength: 0.3 - 1 <br>
-    Can help: " with text:'YOUR TEXT' "
-- LORA: [v3ctora (Vector art & Line art (Flux))](https://civitai.com/models/686231/vector-art-and-line-art-flux) <br>
+>The node is model independent, but I'm getting great results using:
+>- **Model**: Flux_dev (t5xxl_fp8_e4m3fn / clip_l)
+>- **Settings**: <br>
+Euler - Simple<br>
+Steps - 25-30<br>
+Latent Image size - 1024x1024<br>
+Distilled CFG Scale - 3.5<br>
+CFG - 1<br>
+Comfyui-various - Image Contrast: 1.5 - 2
+>- **Lora**: [Simple_Vector_Flux_v2_renderartist](https://civitai.com/models/785122/simple-vector-flux)<br>
+Trigger keyword: v3ct0r , vector<br>
+Recommended strengths: 0.6 - 0.9
+>- **Lora**: [Simple_Vectors_Flux_by_Sarcastic_TOFU](https://civitai.com/models/1329550/simplevectorsfluxbysarcastictofu) <br>
+Trigger keyword: Simple_Vectors_Flux
+>- **Lora**: [Textimprover-FLUX-V0.4](https://civitai.com/models/793052) <br>
+Trigger: aidmaTextImprover <br>
+Strength: 0.3 - 1 <br>
+Can help: " with text:'YOUR TEXT' "
+>- **LORA**: [v3ctora (Vector art & Line art (Flux))](https://civitai.com/models/686231/vector-art-and-line-art-flux) <br>
 Trigger: v3ctora style
 
+### 2. **External Image to SVG Potracer Example Workflow**
+| |
+| :-------------: |
+| ![ComfyUI-ToSVG-Potracer_Ext_image_Reference_Workflow.jpg](img/ComfyUI-ToSVG-Potracer_Ext_image_Reference_Workflow.jpg) <br> *The above image is just a visualisation, does not contain workflow* |
+||
+| <img src="ComfyUI-ToSVG-Potracer_Ext_image_Workflow.png" alt="ComfyUI-ToSVG-Potracer_Ext_image_Workflow.png" width="200"/><br>*drag/drop in ComfyUI* <br> [Example Ext Image SVG Conversion Workflow JSON](example_workflows/example_ToSVG_Potracer_ext_image_SVG_conversion.json) <br> [Example Workflow PNG](ComfyUI-ToSVG-Potracer_Ext_image_Workflow.png) |
+
+**Workflow details**
+
+>In this workflow no AI image generation is used; you load an existing B/W image of an icon/text and can convert it to SVG.
+>You can use an upscale node for the input image, but I found it *rarely* improves quality; in fact, it is usually worse than the original.
+>The output svg can be scaled using the `output_scale` parameter<br>
+><img src="img/Potracer_Upscale_icon.jpg" alt="Potracer_Upscale_icon.jpg" width="400"/><br> 
+>*zoomed in original jpg vs default settings Potracer SVG conversion reference*
+
+
+
+
 ## Sources, Shoutouts, Love and Inspiration
- - Potrace: https://potrace.sourceforge.net/
- - Potracer: https://github.com/tatarize/potrace
- - ComfyUI-ToSVG: https://github.com/Yanick112/ComfyUI-ToSVG
+ - Potrace by Peter Selinger: https://potrace.sourceforge.net/
+ - Potrace Pure Python by Tatarize: https://github.com/tatarize/potrace
+ - ComfyUI-ToSVG by Yanick112: https://github.com/Yanick112/ComfyUI-ToSVG
  - StabilityMatrix: https://github.com/LykosAI/StabilityMatrix
  - Gemini AI
 
 ## To Do
 - [X] Deploy V1 to Github
 - [X] Deploy to Comfyregistry
+- [X] Add Output Scale factor (v1.1)
 - [ ] Real life testing & feedback
 
-
-# ***Disclaimer***
+## Disclaimer
 This is my First ever (public) ComfyUI node.
 While tested thoroughly, and as with all custom nodes, **USE AT YOUR OWN RISK**.
 
 While tested a lot and I have IT knowledge, I am no programmer by trade. This is a passion project for my own specific usecase and I'm sharing it so other people might benefit from it just as much as i benefitted from others. I am convinced this implementation has its flaws and it will probably not work on all other installations worldwide.
 I can not guarantee if this project will get more updates and when. 
+
+## License
+This program is free software; you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation; 
+either version 2, or (at your option) any later version.
+
+Furthermore, this program calls the Potrace Python Library by Tatarize, 
+which is permitted to be relicensed under any terms the Peter Selinger's
+original Potrace is licensed under. 
+If he broadly publishes the software under a more permissive license the Potrace Pyton
+port should be considered licensed as such as well, as well as this program.
+
+Further, if you purchase a proprietary license for inclusion within commercial
+software under Peter Selinger's Dual Licensing program your use of this software
+shall be under whatever terms he permits for that. 
+Any contributions to this port must be made under equally permissive terms.
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

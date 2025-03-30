@@ -238,29 +238,6 @@
       ]
     },
     {
-      "id": 121,
-      "type": "Note",
-      "pos": [
-        1831.3001708984375,
-        790.5582275390625
-      ],
-      "size": [
-        572.75,
-        370.50128173828125
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [],
-      "properties": {},
-      "widgets_values": [
-        "Traces a raster image (IMAGE) into an SVG vector graphic using the 'potracer' pure Python library for POTRACE. \n\nThe input image should only use the two colors black and white. If other pixel values appear in the input, they will be converted to black and white using a simple threshold method. \n\nParameters:\n - threshold: Brightness cutoff (0-255) for binarization to B/W.\n - input_foreground = 'Black on White' or 'White on Black' \n - turnpolicy: how to resolve ambiguities in path decomposition (Default: minority)\n - turdsize: suppress speckles of up to this many pixels (default: 2)\n - corner_treshold: smaller values = sharper corners (default: 1)\n - zero_sharp_corners: force al corners to be fluid. \n     (same as corner_treshold = 1.34)\n - opttolerance: curve optimization tolerance (default: 0.2)\n - optimize_curve: curve optimization, joins adjacent Bezier curve segments where possible. Reduces filesize and points (default: true)\n\n - foreground_color: defines foreground color after trace #rrggbb (default: #000000)\n - stroke_color: defines stroke color after trace #rrggbb (default: #ff0000)\n - stroke_width: sets a stroke width/outline for the traced shapes (default: 0.0)\n - background_color: defines background color after trace #rrggbb (default: #ffffff)\n - no_background removes the background color.\n\nOutput:\n - svg_strings: a list of strings to be converted to svg shape. Requires ComfyUI-ToSVG --> SaveSVG to save the SVGfile.\n\nMore info: https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer"
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
       "id": 107,
       "type": "LayerUtility: ColorPicker",
       "pos": [
@@ -272,7 +249,7 @@
         94
       ],
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -306,7 +283,7 @@
         94
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -341,7 +318,7 @@
         94
       ],
       "flags": {},
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -437,7 +414,8 @@
         "#ff0000",
         0,
         "#ffffff",
-        false
+        false,
+        1
       ]
     },
     {
@@ -502,8 +480,7 @@
         "Node name for S&R": "SaveImage"
       },
       "widgets_values": [
-        "ComfyUI_Potrace_",
-        ""
+        "ComfyUI_Potrace_"
       ]
     },
     {
@@ -518,7 +495,7 @@
         303.0517272949219
       ],
       "flags": {},
-      "order": 7,
+      "order": 6,
       "mode": 0,
       "inputs": [],
       "outputs": [],
@@ -632,8 +609,7 @@
         "Node name for S&R": "SaveImage"
       },
       "widgets_values": [
-        "ComfyUI",
-        ""
+        "ComfyUI"
       ]
     },
     {
@@ -648,7 +624,7 @@
         106
       ],
       "flags": {},
-      "order": 8,
+      "order": 7,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -801,6 +777,29 @@
         true,
         "output\\SVG\\"
       ]
+    },
+    {
+      "id": 121,
+      "type": "Note",
+      "pos": [
+        1831.3001708984375,
+        790.5582275390625
+      ],
+      "size": [
+        572.75,
+        370.50128173828125
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "Traces a raster image (IMAGE) into an SVG vector graphic using the 'potracer' pure Python library for POTRACE. \n\nThe input image should only use the two colors black and white. If other pixel values appear in the input, they will be converted to black and white using a simple threshold method. \n\nParameters:\n - threshold: Brightness cutoff (0-255) for binarization to B/W.\n - input_foreground = 'Black on White' or 'White on Black' \n - turnpolicy: how to resolve ambiguities in path decomposition (Default: minority)\n - turdsize: suppress speckles of up to this many pixels (default: 2)\n - corner_treshold: smaller values = sharper corners (default: 1)\n - zero_sharp_corners: force al corners to be fluid. \n     (same as corner_treshold = 1.34)\n - opttolerance: curve optimization tolerance (default: 0.2)\n - optimize_curve: curve optimization, joins adjacent Bezier curve segments where possible. Reduces filesize and points (default: true)\n\n - foreground_color: defines foreground color after trace #rrggbb (default: #000000)\n - stroke_color: defines stroke color after trace #rrggbb (default: #ff0000)\n - stroke_width: sets a stroke width/outline for the traced shapes (default: 0.0)\n - background_color: defines background color after trace #rrggbb (default: #ffffff)\n - no_background removes the background color.\n - output_scale: Scale the output SVG string by a factor X for resizing.(default 1.0)\n\nOutput:\n - svg_strings: a list of strings to be converted to svg shape. Requires ComfyUI-ToSVG --> SaveSVG to save the SVGfile.\n\nMore info: https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
     }
   ],
   "links": [
@@ -975,15 +974,16 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7663081249415054,
+      "scale": 0.9646149645000006,
       "offset": [
-        679.9509777789858,
-        655.0361376899807
+        -546.2449109633399,
+        -108.13492591636123
       ]
     },
     "node_versions": {
       "comfy-core": "0.3.27",
       "ComfyUI_LayerStyle": "127be44f9d6b384e874a73ba794a7eeb8f2b6a0f",
+      "ComfyUI-ToSVG-Potracer": "1.0.0",
       "ComfyUI-ToSVG": "970301889c354558076a20e6721b944a854136cd",
       "comfyui-various": "36454f91606bbff4fc36d90234981ca4a47e2695"
     },

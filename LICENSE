@@ -1,13 +1,17 @@
-MIT License
+This program is free software; you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation; 
+either version 2, or (at your option) any later version.
 
-Copyright (c) 2025 ImagineerNL
+Furthermore, this program calls the Potrace Python Library by Tatarize, 
+which is permitted to be relicensed under any terms the Peter Selinger's
+original Potrace is licensed under. 
+If he broadly publishes the software under a more permissive license the Potrace Pyton
+port should be considered licensed as such as well, as well as this program.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Further, if you purchase a proprietary license for inclusion within commercial
+software under Peter Selinger's Dual Licensing program your use of this software
+shall be under whatever terms he permits for that. 
+Any contributions to this port must be made under equally permissive terms.
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.

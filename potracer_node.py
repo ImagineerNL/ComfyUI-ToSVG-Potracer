@@ -1,5 +1,4 @@
-# potracer version - Final Code v1.0 (initial publish)
-
+# version 1.1.0
 import torch
 import numpy as np
 from PIL import Image
@@ -12,7 +11,7 @@ import nodes # For checking available node classes
 # NOTE: Requires 'potracer' to be INSTALLED ('pip install potracer')
 try:
     import potrace # Import the module provided by potracer installation
-    _ = potrace.Bitmap # Verify class access
+    _ = potrace.Bitmap # Check class access
     potracer_available = True
 except ImportError:
     print("\n[PotracerVectorize Error] Failed to import 'potrace' module (from potracer).")
@@ -28,6 +27,7 @@ is_save_svg_available = False
 SAVE_SVG_CLASS_NAME = "SaveSVG"
 if potracer_available: # Only check if main dependency is there
     try:
+        # Check ComfyUI's global mapping for the target node class
         if hasattr(nodes, 'NODE_CLASS_MAPPINGS') and SAVE_SVG_CLASS_NAME in nodes.NODE_CLASS_MAPPINGS:
             is_save_svg_available = True
         else:
@@ -65,6 +65,7 @@ class PotracerVectorize:
     Potracer Vectorize To SVG (Pure Python) v1.0
 
     Traces a raster image into a single-path SVG using 'potracer'.
+    Includes option to scale output coordinates, width, height, and viewBox.
     Requires 'pypotrace' uninstalled, 'potracer' installed.
     Advises installing 'ComfyUI-ToSVG' if SaveSVG node is missing.
     """
@@ -91,12 +92,13 @@ class PotracerVectorize:
              "zero_sharp_corners": ("BOOLEAN", {"default": False}), # Overrides corner_threshold if True (uses 1.34)
              "opttolerance": ("FLOAT", {"default": 0.2, "min": 0.0, "max": 1.0, "step": 0.01}), # Algorithm option
              "optimize_curve": ("BOOLEAN", {"default": True}), # Algorithm option (opticurve)
-             # "separate_shapes" removed for reliable hole rendering
+             # "separate_shapes" was removed
              "foreground_color": ("STRING", {"widget": "color", "default": "#000000"}), # SVG path fill color
              "stroke_color": ("STRING", {"widget": "color", "default": "#ff0000"}), # SVG path stroke color
              "stroke_width": ("FLOAT", {"default": 0.0, "min": 0.0, "step": 0.5}), # SVG path stroke width
              "background_color": ("STRING", {"widget": "color", "default": "#ffffff"}), # SVG background color (use "none" for transparent)
              "no_background": ("BOOLEAN", {"default": False}), # If true, prevents background color rect
+             "output_scale": ("FLOAT", {"default": 1.0, "min": 0.1, "max": 100.0, "step": 0.1}), # Scaling factor for output SVG
         }
 
         # Conditionally add info text if SaveSVG node class is missing
@@ -112,14 +114,16 @@ class PotracerVectorize:
     RETURN_NAMES = ("svg_strings",)
     FUNCTION = "vectorize"
     CATEGORY = "💎TOSVG" # Set desired category
-    
+
+    # Add output_scale back to signature
     def vectorize(self, image, threshold, turnpolicy, turdsize, corner_threshold, opttolerance,
                   input_foreground="Black on White", optimize_curve=True,
                   zero_sharp_corners=False,
                   foreground_color="#000000", background_color="#ffffff",
                   stroke_color="#ff0000", stroke_width=0.0,
                   no_background=False,
-                  save_svg_status_message=None): # dummy arg if save_svg not installed
+                  output_scale=1.0, # Added scale argument
+                  save_svg_status_message=None): # Accept dummy arg
 
         if not potracer_available: return ([],)
 
@@ -132,17 +136,22 @@ class PotracerVectorize:
             try:
                 # --- Image Preparation ---
                 pil_img = Image.fromarray((img * 255).astype(np.uint8))
-                width, height = pil_img.size
+                # Get original dimensions
+                orig_width, orig_height = pil_img.size
+                # Check for invalid dimensions
+                if orig_width <= 0 or orig_height <= 0:
+                    svg_strings.append('<svg width="1" height="1"><desc>Error: Invalid image dimensions</desc></svg>'); continue
+
                 threshold_norm = threshold / 255.0
                 current_img_np = image_np[i]
                 # Create initial mask: True = Dark, False = Light
                 if current_img_np.ndim == 3: binary_np = current_img_np[:, :, 0] < threshold_norm
                 elif current_img_np.ndim == 2: binary_np = current_img_np < threshold_norm
-                else: svg_strings.append(f'<svg width="{width}" height="{height}"><desc>Error: Unexpected image dimensions</desc></svg>'); continue
+                else: svg_strings.append(f'<svg width="{orig_width}" height="{orig_height}"><desc>Error: Unexpected image dimensions</desc></svg>'); continue
                 # Apply Inversion Logic based on user selection
                 if input_foreground == "Black on White": binary_np = ~binary_np
                 # Skip if blank
-                if np.all(binary_np) or not np.any(binary_np): svg_strings.append(f'<svg width="{width}" height="{height}"><desc>Potracer: Skipped blank image</desc></svg>'); continue
+                if np.all(binary_np) or not np.any(binary_np): svg_strings.append(f'<svg width="{orig_width}" height="{orig_height}"><desc>Potracer: Skipped blank image</desc></svg>'); continue
 
                 # --- Parameter Prep ---
                 try: turdsize_int = int(turdsize)
@@ -150,21 +159,31 @@ class PotracerVectorize:
                 policy_arg = turnpolicy # Use string argument
                 if zero_sharp_corners: alphamax_value_to_use = 1.34
                 else: alphamax_value_to_use = corner_threshold
+                # Apply scale factor, ensuring it's positive
+                scale = max(0.01, output_scale)
 
                 # --- Potracer Processing ---
                 bm = potrace.Bitmap(binary_np) # Pass final mask where True = desired foreground
                 plist = bm.trace( turdsize=turdsize_int, turnpolicy=policy_arg, alphamax=alphamax_value_to_use, opticurve=optimize_curve, opttolerance=opttolerance )
 
-                # --- Manual SVG Generation (Flat Path) ---
-                svg_header = f'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 {width} {height}">'
+                # --- Manual SVG Generation with Coordinate Scaling ---
+                # Calculate scaled dimensions for SVG attributes, ensuring minimum of 1
+                scaled_width = max(1, round(orig_width * scale))
+                scaled_height = max(1, round(orig_height * scale))
+
+                # Header uses SCALED width/height AND SCALED viewBox
+                svg_header = f'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{scaled_width}" height="{scaled_height}" viewBox="0 0 {scaled_width} {scaled_height}">'
                 svg_footer = "</svg>"
+                # Add background rect if requested (using scaled dimensions)
                 background_rect = ""
                 bg_color_lower = background_color.lower()
-                # Add background rect ONLY if no_background is False AND color is not "none"/empty
                 if not no_background and bg_color_lower != "none" and bg_color_lower != "":
-                     background_rect = f'<rect width="{width}" height="{height}" fill="{background_color}"/>'
-                # Determine fill/stroke attributes once
-                stroke_attr = f'stroke="{stroke_color}" stroke-width="{stroke_width}"' if stroke_width > 0 and stroke_color.lower() != "none" else 'stroke="none"'
+                     background_rect = f'<rect width="{scaled_width}" height="{scaled_height}" fill="{background_color}"/>' # Fills the scaled viewBox
+
+                # Determine path attributes (stroke/fill)
+                # Scale stroke width as well
+                scaled_stroke_width = stroke_width * scale
+                stroke_attr = f'stroke="{stroke_color}" stroke-width="{scaled_stroke_width}"' if scaled_stroke_width > 0 and stroke_color.lower() != "none" else 'stroke="none"'
                 fill_attr = f'fill="{foreground_color}"' if foreground_color.lower() != "none" else 'fill="none"'
                 # Fallback fill if both fill/stroke are none
                 if fill_attr == 'fill="none"' and stroke_attr == 'stroke="none"': fill_attr = 'fill="black"'
@@ -174,24 +193,38 @@ class PotracerVectorize:
 
                 if plist: # Check if trace returned curves
                     fill_rule_to_use = "evenodd" # Use evenodd for combined path to handle holes
-                    # Iterate through curves and segments to build path data for single path element
+                    # Iterate through curves and segments, scaling coordinates
                     for curve_idx, curve in enumerate(plist):
-                         # Safety checks for curve/segment data integrity
+                         # Safety checks
                          if not (hasattr(curve, 'start_point') and hasattr(curve.start_point, 'x') and hasattr(curve.start_point, 'y')): continue
-                         fs = curve.start_point; path_parts.append(f"M{fs.x},{fs.y}")
+                         fs = curve.start_point
+                         # Scale start point coordinates
+                         path_parts.append(f"M{fs.x * scale},{fs.y * scale}")
                          if not hasattr(curve, 'segments'): continue
                          for seg_idx, segment in enumerate(curve.segments):
                             valid_segment=True
+                            # Basic attribute checks
                             if not (hasattr(segment, 'is_corner') and hasattr(segment, 'end_point') and hasattr(segment.end_point, 'x') and hasattr(segment.end_point, 'y')): valid_segment=False
                             if valid_segment and segment.is_corner: # Line segments
+                                # Check corner-specific attributes
                                 if not (hasattr(segment, 'c') and hasattr(segment.c, 'x') and hasattr(segment.c, 'y')): valid_segment=False
-                                else: path_parts.append(f"L{segment.c.x},{segment.c.y}L{segment.end_point.x},{segment.end_point.y}")
+                                else:
+                                    # Scale corner and end point coordinates
+                                    c_x = segment.c.x * scale; c_y = segment.c.y * scale
+                                    ep_x = segment.end_point.x * scale; ep_y = segment.end_point.y * scale
+                                    path_parts.append(f"L{c_x},{c_y}L{ep_x},{ep_y}")
                             elif valid_segment: # Bezier curve segments
+                                # Check Bezier-specific attributes
                                 if not (hasattr(segment, 'c1') and hasattr(segment.c1, 'x') and hasattr(segment.c1, 'y') and hasattr(segment, 'c2') and hasattr(segment.c2, 'x') and hasattr(segment.c2, 'y')): valid_segment=False
-                                else: path_parts.append(f"C{segment.c1.x},{segment.c1.y} {segment.c2.x},{segment.c2.y} {segment.end_point.x},{segment.end_point.y}")
+                                else:
+                                    # Scale control and end point coordinates
+                                    c1_x = segment.c1.x * scale; c1_y = segment.c1.y * scale
+                                    c2_x = segment.c2.x * scale; c2_y = segment.c2.y * scale
+                                    ep_x = segment.end_point.x * scale; ep_y = segment.end_point.y * scale
+                                    path_parts.append(f"C{c1_x},{c1_y} {c2_x},{c2_y} {ep_x},{ep_y}")
                          path_parts.append("z") # Close path for the curve
 
-                    # Assemble the <path> element if data was generated
+                    # Assemble the single <path> element if data was generated
                     if path_parts:
                         all_paths_svg = f'<path {stroke_attr} {fill_attr} fill-rule="{fill_rule_to_use}" d="{"".join(path_parts)}"/>'
                         # Combine final SVG string
@@ -212,11 +245,12 @@ class PotracerVectorize:
                 except Exception as inner_e: print(f"  Failed to print basic exception info: {repr(inner_e)}")
                 print(f"  --- Full Traceback ---"); traceback.print_exc(); print(f"  --- End Traceback ---")
                 current_turdsize = turdsize_int if 'turdsize_int' in locals() and turdsize_int is not None else turdsize
+                # Updated context log includes output_scale
                 print(f"  Parameters: threshold={threshold}, turnpolicy={turnpolicy}, turdsize={current_turdsize}, "
                       f"corner_threshold={corner_threshold}, opttolerance={opttolerance}, optimize_curve={optimize_curve}, input_foreground='{input_foreground}', "
-                      f"zero_sharp_corners={zero_sharp_corners}, " # separate_shapes removed
+                      f"zero_sharp_corners={zero_sharp_corners}, "
                       f"foreground_color='{foreground_color}', background_color='{background_color}', "
-                      f"stroke_color='{stroke_color}', stroke_width={stroke_width}, no_background={no_background}")
+                      f"stroke_color='{stroke_color}', stroke_width={stroke_width}, no_background={no_background}, output_scale={output_scale}")
                 print("-" * 20)
                 # Return empty list on any error during processing
                 return ([],)
@@ -233,3 +267,4 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     # Set the desired display name
     "PotracerVectorize": "Potracer to SVG"
 }
+

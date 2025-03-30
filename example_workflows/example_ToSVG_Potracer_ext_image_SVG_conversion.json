@@ -1,0 +1,595 @@
+{
+  "id": "ae8cc3f3-1f12-40af-9970-69eabf73eacf",
+  "revision": 0,
+  "last_node_id": 145,
+  "last_link_id": 249,
+  "nodes": [
+    {
+      "id": 107,
+      "type": "LayerUtility: ColorPicker",
+      "pos": [
+        1537.5205078125,
+        437.58624267578125
+      ],
+      "size": [
+        210,
+        94
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "links": [
+            237
+          ]
+        }
+      ],
+      "title": "ColorPicker Foreground",
+      "properties": {
+        "Node name for S&R": "LayerUtility: ColorPicker"
+      },
+      "widgets_values": [
+        "#000000",
+        "HEX"
+      ],
+      "color": "rgba(38, 73, 116, 0.7)"
+    },
+    {
+      "id": 108,
+      "type": "LayerUtility: ColorPicker",
+      "pos": [
+        1536.1572265625,
+        591.4327392578125
+      ],
+      "size": [
+        210,
+        94
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "links": [
+            185,
+            238
+          ]
+        }
+      ],
+      "title": "ColorPicker Stroke",
+      "properties": {
+        "Node name for S&R": "LayerUtility: ColorPicker"
+      },
+      "widgets_values": [
+        "#ff0000",
+        "HEX"
+      ],
+      "color": "rgba(38, 73, 116, 0.7)"
+    },
+    {
+      "id": 104,
+      "type": "LayerUtility: ColorPicker",
+      "pos": [
+        1538.98486328125,
+        759.3896484375
+      ],
+      "size": [
+        210,
+        94
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "links": [
+            239
+          ]
+        }
+      ],
+      "title": "ColorPicker Background",
+      "properties": {
+        "Node name for S&R": "LayerUtility: ColorPicker"
+      },
+      "widgets_values": [
+        "#ffffff",
+        "HEX"
+      ],
+      "color": "rgba(38, 73, 116, 0.7)"
+    },
+    {
+      "id": 94,
+      "type": "SaveSVG",
+      "pos": [
+        2558.428955078125,
+        1019.3042602539062
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "svg_strings",
+          "type": "LIST",
+          "link": 236
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveSVG"
+      },
+      "widgets_values": [
+        "ComfyUI_Potrace_SVG_",
+        true,
+        "output\\SVG\\"
+      ]
+    },
+    {
+      "id": 114,
+      "type": "SaveImage",
+      "pos": [
+        2548.2666015625,
+        396.0184326171875
+      ],
+      "size": [
+        630,
+        560
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 194
+        }
+      ],
+      "outputs": [],
+      "title": "Save POTRACED as Image",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI_Potrace_",
+        ""
+      ]
+    },
+    {
+      "id": 87,
+      "type": "JWImageContrast",
+      "pos": [
+        1084.17919921875,
+        412.4429016113281
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 243
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            166,
+            234
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JWImageContrast"
+      },
+      "widgets_values": [
+        1.7800000000000002
+      ]
+    },
+    {
+      "id": 85,
+      "type": "ImageScaleBy",
+      "pos": [
+        958.7169189453125,
+        230.2474365234375
+      ],
+      "size": [
+        315,
+        82
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 244
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            243
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleBy"
+      },
+      "widgets_values": [
+        "bilinear",
+        1.0000000000000002
+      ]
+    },
+    {
+      "id": 143,
+      "type": "LoadImage",
+      "pos": [
+        541.3294067382812,
+        468.99212646484375
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            244
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "head.jpg",
+        "image",
+        ""
+      ]
+    },
+    {
+      "id": 134,
+      "type": "Note",
+      "pos": [
+        548.408447265625,
+        79.7848892211914
+      ],
+      "size": [
+        320.3168640136719,
+        303.0517272949219
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "External Image to SVG Workflow\n\nNo matter how small, you almost never need to use the Upscale node.\nExported SVG is small (and thus the recreated png as well, but the SVG quality is super!\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 113,
+      "type": "ConvertVectorToRaster",
+      "pos": [
+        2369.246337890625,
+        295.25250244140625
+      ],
+      "size": [
+        277.20001220703125,
+        26
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "svg_strings",
+          "type": "LIST",
+          "link": 248
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            194
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConvertVectorToRaster"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 139,
+      "type": "PotracerVectorize",
+      "pos": [
+        1788.3577880859375,
+        385.16571044921875
+      ],
+      "size": [
+        561.3160400390625,
+        371.5438232421875
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 234
+        },
+        {
+          "name": "foreground_color",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "foreground_color"
+          },
+          "link": 237
+        },
+        {
+          "name": "stroke_color",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "stroke_color"
+          },
+          "link": 238
+        },
+        {
+          "name": "background_color",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "background_color"
+          },
+          "link": 239
+        }
+      ],
+      "outputs": [
+        {
+          "name": "svg_strings",
+          "type": "LIST",
+          "links": [
+            235,
+            236,
+            248
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PotracerVectorize"
+      },
+      "widgets_values": [
+        128,
+        "Black on White",
+        "minority",
+        2,
+        1,
+        true,
+        0.2,
+        true,
+        "#000000",
+        "#ff0000",
+        0,
+        "#ffffff",
+        true,
+        10
+      ]
+    },
+    {
+      "id": 64,
+      "type": "SaveImage",
+      "pos": [
+        1502.942138671875,
+        -126.60839080810547
+      ],
+      "size": [
+        252.47987365722656,
+        282
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 166
+        }
+      ],
+      "outputs": [],
+      "title": "Save Image Before Trace",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI",
+        ""
+      ]
+    },
+    {
+      "id": 121,
+      "type": "Note",
+      "pos": [
+        1821.34814453125,
+        824.5615844726562
+      ],
+      "size": [
+        572.75,
+        370.50128173828125
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "Traces a raster image (IMAGE) into an SVG vector graphic using the 'potracer' pure Python library for POTRACE. \n\nThe input image should only use the two colors black and white. If other pixel values appear in the input, they will be converted to black and white using a simple threshold method. \n\nParameters:\n - threshold: Brightness cutoff (0-255) for binarization to B/W.\n - input_foreground = 'Black on White' or 'White on Black' \n - turnpolicy: how to resolve ambiguities in path decomposition (Default: minority)\n - turdsize: suppress speckles of up to this many pixels (default: 2)\n - corner_treshold: smaller values = sharper corners (default: 1)\n - zero_sharp_corners: force al corners to be fluid. \n     (same as corner_treshold = 1.34)\n - opttolerance: curve optimization tolerance (default: 0.2)\n - optimize_curve: curve optimization, joins adjacent Bezier curve segments where possible. Reduces filesize and points (default: true)\n\n - foreground_color: defines foreground color after trace #rrggbb (default: #000000)\n - stroke_color: defines stroke color after trace #rrggbb (default: #ff0000)\n - stroke_width: sets a stroke width/outline for the traced shapes (default: 0.0)\n - background_color: defines background color after trace #rrggbb (default: #ffffff)\n - no_background: removes the background color.\n - output_scale: Scale the output SVG string by a factor X for resizing.(default 1.0)\n\nOutput:\n - svg_strings: a list of strings to be converted to svg shape. Requires ComfyUI-ToSVG --> SaveSVG to save the SVGfile.\n\nMore info: https://github.com/ImagineerNL/ComfyUI-ToSVG-Potracer"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      166,
+      87,
+      0,
+      64,
+      0,
+      "IMAGE"
+    ],
+    [
+      194,
+      113,
+      0,
+      114,
+      0,
+      "IMAGE"
+    ],
+    [
+      234,
+      87,
+      0,
+      139,
+      0,
+      "IMAGE"
+    ],
+    [
+      236,
+      139,
+      0,
+      94,
+      0,
+      "LIST"
+    ],
+    [
+      237,
+      107,
+      0,
+      139,
+      1,
+      "STRING"
+    ],
+    [
+      238,
+      108,
+      0,
+      139,
+      2,
+      "STRING"
+    ],
+    [
+      239,
+      104,
+      0,
+      139,
+      3,
+      "STRING"
+    ],
+    [
+      243,
+      85,
+      0,
+      87,
+      0,
+      "IMAGE"
+    ],
+    [
+      244,
+      143,
+      0,
+      85,
+      0,
+      "IMAGE"
+    ],
+    [
+      248,
+      139,
+      0,
+      113,
+      0,
+      "LIST"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 2,
+      "title": "POTRACE",
+      "bounding": [
+        1497.463134765625,
+        191.8153839111328,
+        1700.5894775390625,
+        1041.5782470703125
+      ],
+      "color": "#8A8",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.167184107045001,
+      "offset": [
+        -887.4810108235531,
+        24.621774730813854
+      ]
+    },
+    "node_versions": {
+      "ComfyUI_LayerStyle": "127be44f9d6b384e874a73ba794a7eeb8f2b6a0f",
+      "ComfyUI-ToSVG": "970301889c354558076a20e6721b944a854136cd",
+      "comfy-core": "0.3.27",
+      "comfyui-various": "36454f91606bbff4fc36d90234981ca4a47e2695",
+      "ComfyUI-ToSVG-Potracer": "1.0.0"
+    },
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0
+  },
+  "version": 0.4
+}

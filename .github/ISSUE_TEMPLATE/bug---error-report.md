@@ -1,53 +1,93 @@
----
 name: Bug / Error report
-about: Create a report to help me improve
-title: "[Bug] "
-labels: bug
-assignees: ImagineerNL
-
----
-
-**Where did the error occur**
-*place an x between the brackets where in your proces this occured*
-- [x] Using the example workflow
-- [ ] Using the node separately
-- [ ] installation of the node in ComfyUI
-
-**Describe the bug**
-*A clear and concise description of what the bug is.*
-
-
-**ComfyUI error message**
-*Only the snippet of the error in the ComfyUI log when trying to run the node/workflow*
-
-
-**To Reproduce**
-*Steps to reproduce the behavior:*
-*Note, I WILL NOT OPEN PNG WORKFLOW FILES*
-
-1. Go to '...'
-2. Click on '....'
-3. Etc
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-*If applicable, add screenshots to help explain your problem.*
-*Note, I WILL NOT OPEN PNG WORKFLOW FILES*
-
-**ToSVG-Potracer settings Screenshot**
-
-
-**System running ComfyUI (please complete the following information):**
- - OS: [e.g. Windows, Mac, Linux, etc]
- - ComfyUI implementation (Manual install, StabilityMatrix, etc)
- - ComfyUI Version [e.g. 22]
-
-**Additional info**
-*If possible, add details and context here.*
-- MODEL Type (e.g. Flux, SDXL) :
-- MODEL:
-- LORA:
-- PROMPT INFO:
-- Etc
+description: Template for bug reports
+title: '[Bug]: '
+body:
+  - type: dropdown
+    id: '1'
+    attributes:
+      label: Origin
+      description: Where in your process did this occur?
+      multiple: true
+      options:
+        - Manual installation via Git Pull
+        - Manual installation via ComfyRegistry
+        - Installation via ComfyUI Custom Nodes Manager
+        - Import of Github Example Workflows
+        - Import of Other Workflows
+    validations:
+      required: true
+  - type: textarea
+    id: '2'
+    attributes:
+      label: 'Describe the bug '
+      description: >-
+        A clear and concise description of what the bug is. ***Note, I will not
+        open PNG workflow files***
+      value: |
+        *If applicable, add screenshots to help explain your problem.*
+    validations:
+      required: true
+  - type: textarea
+    id: Codesnippet
+    attributes:
+      label: ComfyUI log containing error
+      description: >-
+        Only the snippet of the error in the ComfyUI log when trying to run or
+        install the node/workflow
+      placeholder: Search your log for 'ComfyUI-ToSVG-Potracer'
+  - type: dropdown
+    id: '3'
+    attributes:
+      label: System running ComfyUI
+      options:
+        - Windows
+        - Mac
+        - Linux
+        - Cloud Platform
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: '4'
+    attributes:
+      label: 'Details of System running ComfyUI:'
+      description: please complete the following information
+      placeholder: Manual install, StabilityMatrix, Google Colab, RunComfy, etc
+    validations:
+      required: true
+  - type: textarea
+    id: '5'
+    attributes:
+      label: Additional info
+      description: If possible, add details and context here.
+      value: |-
+        - MODEL Type (e.g. Flux, SDXL) :
+        - MODEL: 
+        - LORA: 
+        - PROMPT INFO: 
+        - Etc
+  - type: textarea
+    id: pip
+    attributes:
+      label: Pip Versions
+      description: >-
+        If local install: In your venv, run: **`pip show potrace-windows,
+        pypotrace, potracer`**
+      placeholder: >-
+        It should show: `WARNING: Package(s) not found: potrace-windows,,
+        pypotrace,` and then list the potracer version (i'm running 0.0.4)
+  - type: textarea
+    id: ComfyUINodes
+    attributes:
+      label: ComfyUI Manager Custom Nodes
+      description: >-
+        Please provide a screenshot of your nodes containing 'SVG', to help
+        discern conflicting nodes.
+      placeholder: >-
+        ComfyUI Manager - > Custom Nodes Manager --> Search bar: `svg` and post
+        a screenshot of the listed node(packages)
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)

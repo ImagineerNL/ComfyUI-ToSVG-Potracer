@@ -7,9 +7,9 @@
   - [Workflows](#workflows)
     - [1. **Txt2Img to SVG Potracer Example Workflow**](#1-txt2img-to-svg-potracer-example-workflow)
       - [**Workflow details**](#workflow-details)
-    - [2. **External Image to SVG Potracer Example Workflow**](#2-external-image-to-svg-potracer-example-workflow)
-      - [Workflow details](#workflow-details-1)
+      - [Alternative Route](#alternative-route)
   - [Sources, Shoutouts, Love and Inspiration](#sources-shoutouts-love-and-inspiration)
+  - [CHANGENOTES (BREAKING!!!)](#changenotes-breaking)
   - [To Do](#to-do)
   - [Disclaimer](#disclaimer)
   - [License](#license)
@@ -40,7 +40,7 @@ In short; As Potrace converts the image to 1 foregroundcolor and 1 backgroundcol
 ## Installation
 
 Due to both usecases for SVG export are very valid when working with ComfyUI, I opted to keep the naming and category alike for easier navigation.
->***note: This node requires [Yanick112's ComfyUI-ToSVG](https://github.com/Yanick112/ComfyUI-ToSVG/) --> SaveSVG node to save the SVGfile and VectorToRaster node if you want to reconstruct the SVG to an image if you want to see the result in ComfyUI. See his repository for install instructions***
+>***note: This node requires Requires ***LATEST VERSION*** of [Yanick112's ComfyUI-ToSVG](https://github.com/Yanick112/ComfyUI-ToSVG/) --> SaveSVG node to save the SVGfile and VectorToRaster node if you want to reconstruct the SVG to an image if you want to see the result in ComfyUI. See his repository for install instructions***
 
 - Using ComfyUI Manager --> Custom Node Manager --> Search for:
 
@@ -91,7 +91,7 @@ Outputs svg strings as 1 flat shape (as a compound path). Should you want to adj
 | **no_background**       	| *Removes the background color (sets background_color to 'none' in backend)* | false |
 | **output_scale** | *Scale the output SVG string by a factor X for resizing* |1.0|
 | | | |
-| **svg_strings**           | *A list of strings that can be converted to svg shape by connecting it to the ComfyUI-ToSVG --> SaveSVG node*| |
+| **svg_strings**           | *A set of strings that can be converted to svg shape by connecting it to the ComfyUI-ToSVG --> SaveSVG node*| |
 
 ## Workflows
 
@@ -101,7 +101,7 @@ Outputs svg strings as 1 flat shape (as a compound path). Should you want to adj
 | :-------------: |
 | ![alt text](img/ComfyUI-ToSVG-Potracer_Reference_Workflow.jpg ) <br> *The above image is just a visualisation, does not contain workflow* <br>*Workflow based on the [Flux Text to Vector Workflow](https://openart.ai/workflows/odam_ai/flux-text-to-vector-turn-your-images-into-svg-dev-gguf/duJDP3ljuMaWv9cLSkY3) by Stonelax* |
 ||
-| <img src="ComfyUI_ToSVG_Potrace_Workflow.png" alt="ComfyUI_ToSVG_Potrace_Workflow.png" width="200"/> <br> *drag/drop in ComfyUI* <br> [Example Workflow JSON](example_workflows/example_ToSVG_Potracer.json) <br> [Example Workflow PNG](ComfyUI_ToSVG_Potrace_Workflow.png) |
+| <img src="ComfyUI_ToSVG_Potrace_Workflow_V1.2.png" alt="ComfyUI_ToSVG_Potrace_Workflow_V1.2.png" width="200"/> <br> *drag/drop in ComfyUI* <br> [Example Workflow V1.2 JSON](example_workflows/example_ToSVG_Potracer_V1.2) <br> [Example Workflow V1.2 PNG](ComfyUI_ToSVG_Potrace_Workflow_V1.2.png) <br> [Example Workflow V1.2 on OpenArt.ai PNG]([ComfyUI_ToSVG_Potrace_Workflow_V1.2.png](https://openart.ai/workflows/koala_speedy_95/txt2img-to-svg-potracer-vector-conversion-example-workflow/bnoXqmR1qQFtBAOCYqod)) |
 
 #### **Workflow details**
 
@@ -132,17 +132,9 @@ Text: With the text: "YOUR TEXT"<br>
 colors: black, white<br>
 Background: Clean white, simple design, no extra details
 
-### 2. **External Image to SVG Potracer Example Workflow**
+#### Alternative Route
 
-| |
-| :-------------: |
-| ![ComfyUI-ToSVG-Potracer_Ext_image_Reference_Workflow.jpg](img/ComfyUI-ToSVG-Potracer_Ext_image_Reference_Workflow.jpg) <br> *The above image is just a visualisation, does not contain workflow* |
-||
-| <img src="ComfyUI-ToSVG-Potracer_Ext_image_Workflow.png" alt="ComfyUI-ToSVG-Potracer_Ext_image_Workflow.png" width="200"/><br>*drag/drop in ComfyUI* <br> [Example Ext Image SVG Conversion Workflow JSON](example_workflows/example_ToSVG_Potracer_ext_image_SVG_conversion.json) <br> [Example Workflow PNG](ComfyUI-ToSVG-Potracer_Ext_image_Workflow.png) |
-
-#### Workflow details
-
-In this workflow no AI image generation is used; you load an existing B/W image of an icon/text and can convert it to SVG.
+For the second option in this workflow; you load an existing 2 color image of an icon/text and can convert it to SVG.
 You can use an upscale node for the input image, but I found it *rarely* improves quality; in fact, it is usually worse than the original.<br>
 It usually helps more to clean up the contrast, especially with highly compressed jpg images.
 The output svg can be scaled using the `output_scale` parameter<br><br>
@@ -157,6 +149,15 @@ The output svg can be scaled using the `output_scale` parameter<br><br>
 - StabilityMatrix: <https://github.com/LykosAI/StabilityMatrix>
 - [Flux Text to Vector Workflow](https://openart.ai/workflows/odam_ai/flux-text-to-vector-turn-your-images-into-svg-dev-gguf/duJDP3ljuMaWv9cLSkY3) by <Stonelax@odam.ai>
 - Gemini AI
+
+## CHANGENOTES (BREAKING!!!)
+- V1.0.0 Initial release
+- V1.2.0 BREAKING / FIXING CHANGE: Output LIST --> Output String<br>
+  Yanick112's ToSVG Node switched recently from LIST to String. V1.0.0 didn't account for that.<br>
+  ComfyUI-ToSVG has the 'nightly' version in ComfyUI Custom Node Manager, and therefor doesn't do versioning.
+  -  Update package; in your workflow: rightclick recreate node or Reload example workflow (V1.2).; It should connect now to ToSVG nodes.
+  -  If it DID work before and now it doesn't, update the ComfyUI-ToSVG Package.
+
 
 ## To Do
 

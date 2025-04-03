@@ -1,4 +1,4 @@
-# version 1.1.0
+# version 1.2.0 - Modified for STRING output
 import torch
 import numpy as np
 from PIL import Image
@@ -62,9 +62,10 @@ else:
 
 class PotracerVectorize:
     """
-    Potracer Vectorize To SVG (Pure Python) v1.0
+    Potracer Vectorize To SVG (Pure Python) v1.2 (String Output Mod)
 
-    Traces a raster image into a single-path SVG using 'potracer'.
+    Traces a raster image into SVG format using 'potracer'.
+    Outputs a single string, containing newline-separated SVGs if batch processed.
     Includes option to scale output coordinates, width, height, and viewBox.
     Requires 'pypotrace' uninstalled, 'potracer' installed.
     Advises installing 'ComfyUI-ToSVG' if SaveSVG node is missing.
@@ -99,19 +100,22 @@ class PotracerVectorize:
              "background_color": ("STRING", {"widget": "color", "default": "#ffffff"}), # SVG background color (use "none" for transparent)
              "no_background": ("BOOLEAN", {"default": False}), # If true, prevents background color rect
              "output_scale": ("FLOAT", {"default": 1.0, "min": 0.1, "max": 100.0, "step": 0.1}), # Scaling factor for output SVG
-        }
+         }
 
         # Conditionally add info text if SaveSVG node class is missing
         if not is_save_svg_available:
             optional_inputs["save_svg_status_message"] = ("STRING", {
                 "default": "NOTE: 'SaveSVG' node not found.\nFor saving install:\nhttps://github.com/Yanick112/ComfyUI-ToSVG",
                 "multiline": True # Displays as a multi-line text box
-            })
+             })
 
         return {"required": required_inputs, "optional": optional_inputs}
 
-    RETURN_TYPES = ("LIST",)
-    RETURN_NAMES = ("svg_strings",)
+    # --- MODIFIED FOR STRING OUTPUT ---
+    RETURN_TYPES = ("STRING",) # Changed from LIST
+    RETURN_NAMES = ("svg_string",) # Changed from svg_strings
+    # --- END MODIFICATION ---
+
     FUNCTION = "vectorize"
     CATEGORY = "💎TOSVG" # Set desired category
 
@@ -125,10 +129,10 @@ class PotracerVectorize:
                   output_scale=1.0, # Added scale argument
                   save_svg_status_message=None): # Accept dummy arg
 
-        if not potracer_available: return ([],)
+        if not potracer_available: return ("",) # Return empty string on error
 
         image_np = image.cpu().numpy()
-        svg_strings = []
+        svg_strings = [] # Still collect individual SVGs here
 
         # Process each image in the batch
         for i, img in enumerate(image_np):
@@ -140,7 +144,8 @@ class PotracerVectorize:
                 orig_width, orig_height = pil_img.size
                 # Check for invalid dimensions
                 if orig_width <= 0 or orig_height <= 0:
-                    svg_strings.append('<svg width="1" height="1"><desc>Error: Invalid image dimensions</desc></svg>'); continue
+                    svg_strings.append('<svg width="1" height="1"><desc>Error: Invalid image dimensions</desc></svg>')
+                    continue
 
                 threshold_norm = threshold / 255.0
                 current_img_np = image_np[i]
@@ -214,7 +219,7 @@ class PotracerVectorize:
                                     ep_x = segment.end_point.x * scale; ep_y = segment.end_point.y * scale
                                     path_parts.append(f"L{c_x},{c_y}L{ep_x},{ep_y}")
                             elif valid_segment: # Bezier curve segments
-                                # Check Bezier-specific attributes
+                                 # Check Bezier-specific attributes
                                 if not (hasattr(segment, 'c1') and hasattr(segment.c1, 'x') and hasattr(segment.c1, 'y') and hasattr(segment, 'c2') and hasattr(segment.c2, 'x') and hasattr(segment.c2, 'y')): valid_segment=False
                                 else:
                                     # Scale control and end point coordinates
@@ -232,7 +237,7 @@ class PotracerVectorize:
                     else: # Handle cases where path generation failed internally
                          svg_data = f'{svg_header}<desc>Potracer: Path data generation failed</desc>{svg_footer}'
                 else: # Handle cases where trace returned no curves
-                    svg_data = f'{svg_header}<desc>Potracer: No paths found</desc>{svg_footer}'
+                     svg_data = f'{svg_header}<desc>Potracer: No paths found</desc>{svg_footer}'
 
                 # Add the final SVG string to the list
                 svg_strings.append(svg_data)
@@ -252,11 +257,13 @@ class PotracerVectorize:
                       f"foreground_color='{foreground_color}', background_color='{background_color}', "
                       f"stroke_color='{stroke_color}', stroke_width={stroke_width}, no_background={no_background}, output_scale={output_scale}")
                 print("-" * 20)
-                # Return empty list on any error during processing
-                return ([],)
+                 # Return empty string on any error during processing
+                return ("",) # Changed from ([],)
 
-        # Return the list of generated SVG strings
-        return (svg_strings,)
+        # --- MODIFIED FOR STRING OUTPUT ---
+        # Return the joined list of generated SVG strings as a single string
+        return ("\n".join(svg_strings),) # Changed from (svg_strings,)
+        # --- END MODIFICATION ---
 
 # --- ComfyUI Node Mappings ---
 NODE_CLASS_MAPPINGS = {
@@ -265,6 +272,5 @@ NODE_CLASS_MAPPINGS = {
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     # Set the desired display name
-    "PotracerVectorize": "Potracer to SVG"
+    "PotracerVectorize": "Potracer to SVG" # Modified display name
 }
-

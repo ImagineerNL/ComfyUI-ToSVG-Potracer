@@ -42,6 +42,8 @@ In short; As Potrace converts the image to 1 foregroundcolor and 1 backgroundcol
 Due to both usecases for SVG export are very valid when working with ComfyUI, I opted to keep the naming and category alike for easier navigation.
 >***note: This node requires Requires ***LATEST VERSION*** of [Yanick112's ComfyUI-ToSVG](https://github.com/Yanick112/ComfyUI-ToSVG/) --> SaveSVG node to save the SVGfile and VectorToRaster node if you want to reconstruct the SVG to an image if you want to see the result in ComfyUI. See his repository for install instructions***
 
+>***note 2025-05-08: With the new API node a default ComfyUI node SaveSVG is built. This node conflicts with [Yanick112's ComfyUI-ToSVG](https://github.com/Yanick112/ComfyUI-ToSVG/) --> SaveSVG node. The new SaveSVG node is currently under the API nodes, but will eventually be part of base ComfyUI functionality. See this [ComfyUI issue](https://github.com/comfyanonymous/ComfyUI/issues/7980). I have duplicated and renamed Yanick112's SaveSVG node to keep compatibility with older versions. The node now also outputs attaching to the NEW SaveSVG node of ComfyUI v0.3.32 and up.*** 
+
 - Using ComfyUI Manager --> Custom Node Manager --> Search for:
 
         ComfyUI-ToSVG-Potracer
@@ -101,7 +103,7 @@ Outputs svg strings as 1 flat shape (as a compound path). Should you want to adj
 | :-------------: |
 | ![alt text](img/ComfyUI-ToSVG-Potracer_Reference_Workflow.jpg ) <br> *The above image is just a visualisation, does not contain workflow* <br>*Workflow based on the [Flux Text to Vector Workflow](https://openart.ai/workflows/odam_ai/flux-text-to-vector-turn-your-images-into-svg-dev-gguf/duJDP3ljuMaWv9cLSkY3) by Stonelax* |
 ||
-| <img src="ComfyUI_ToSVG_Potrace_Workflow_V1.2.png" alt="ComfyUI_ToSVG_Potrace_Workflow_V1.2.png" width="200"/> <br> *drag/drop in ComfyUI* <br> [Example Workflow V1.2 JSON](example_workflows/example_ToSVG_Potracer_V1.2) <br> [Example Workflow V1.2 PNG](ComfyUI_ToSVG_Potrace_Workflow_V1.2.png) <br> [Example Workflow V1.2 on OpenArt.ai PNG]([ComfyUI_ToSVG_Potrace_Workflow_V1.2.png](https://openart.ai/workflows/koala_speedy_95/txt2img-to-svg-potracer-vector-conversion-example-workflow/bnoXqmR1qQFtBAOCYqod)) |
+| <img src="ComfyUI_ToSVG_Potrace_Workflow.png" alt="ComfyUI_ToSVG_Potrace_Workflow.png" width="200"/> <br> *drag/drop in ComfyUI*<br> You can now also find the workflow in the ComfyUI workflow Templates. <br> [Example Workflow JSON](example_workflows/example_ToSVG_Potracer.json) <br> [Example Workflow PNG](ComfyUI_ToSVG_Potrace_Workflow.png) <br> [Example Workflow on OpenArt.ai](https://openart.ai/workflows/koala_speedy_95/txt2img-to-svg-potracer-vector-conversion-example-workflow/bnoXqmR1qQFtBAOCYqod) |
 
 #### **Workflow details**
 
@@ -157,6 +159,8 @@ The output svg can be scaled using the `output_scale` parameter<br><br>
   ComfyUI-ToSVG has the 'nightly' version in ComfyUI Custom Node Manager, and therefor doesn't do versioning.
   -  Update package; in your workflow: rightclick recreate node or Reload example workflow (V1.2).; It should connect now to ToSVG nodes.
   -  If it DID work before and now it doesn't, update the ComfyUI-ToSVG Package.
+- V1.3.1 FIXING CHANGE: SaveSVG
+  With the new API node a default ComfyUI node SaveSVG is built. This node conflicts with [Yanick112's ComfyUI-ToSVG](https://github.com/Yanick112/ComfyUI-ToSVG/) --> SaveSVG node. The new SaveSVG node is currently under the API nodes, but will eventually be part of base ComfyUI functionality. See this [ComfyUI issue](https://github.com/comfyanonymous/ComfyUI/issues/7980). I have duplicated and renamed Yanick112's SaveSVG node to keep compatibility with older versions. The node now also outputs attaching to the NEW SaveSVG node of ComfyUI v0.3.32 and up.   
 
 
 ## To Do
